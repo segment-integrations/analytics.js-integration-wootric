@@ -1,4 +1,9 @@
 
+1.0.3 / 2015-09-04
+==================
+
+  * Convert unix time to seconds from milliseconds
+
 1.0.2 / 2015-06-30
 ==================
 
