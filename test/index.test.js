@@ -95,42 +95,42 @@ describe('Wootric', function() {
         analytics.identify({
           email: 'shawn@shawnmorgan.com'
         });
-        analytics.assert(window.wootricSettings.email, 'shawn@shawnmorgan.com');
-      });
-
-      it('should set created_at on identify using ISO MM/DD/YYYY format', function() {
-        analytics.identify({
-          createdAt: '01/01/2015'
-        });
-        analytics.assert(window.wootricSettings.created_at, '1420099200000');
+        analytics.equal(window.wootricSettings.email, 'shawn@shawnmorgan.com');
       });
 
       it('should set created_at on identify using ISO YYYY-MM-DD format', function() {
         analytics.identify({
           createdAt: '2015-01-01'
         });
-        analytics.assert(window.wootricSettings.created_at, '1420099200000');
+        analytics.equal(window.wootricSettings.created_at, 1420070400);
       });
 
       it('should set created_at on identify using ISO YYYYMMDD format', function() {
         analytics.identify({
           createdAt: '20150101'
         });
-        analytics.assert(window.wootricSettings.created_at, '1420099200000');
+        analytics.equal(window.wootricSettings.created_at, 1420070400);
       });
 
       it('should set created_at on traits using Unix Timestamp format', function() {
         analytics.identify({
           createdAt: '1420099200000'
         });
-        analytics.assert(window.wootricSettings.created_at, '1420099200000');
+        analytics.equal(window.wootricSettings.created_at, 1420099200);
+      });
+
+      it('should round Unix Timstamps with a decimal to the nearest whole digit', function() {
+        analytics.identify({
+          createdAt: '1420099200.435'
+        });
+        analytics.equal(window.wootricSettings.created_at, 1420099200);
       });
 
       it('should set language', function() {
         analytics.identify({
           language: 'es'
         });
-        analytics.assert(window.wootricSettings.language, 'es');
+        analytics.equal(window.wootricSettings.language, 'es');
       });
 
       it('should set properties based on other traits', function() {
