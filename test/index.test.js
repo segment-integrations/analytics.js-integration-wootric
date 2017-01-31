@@ -144,6 +144,31 @@ describe('Wootric', function() {
         analytics.assert(window.wootricSettings.properties.property2 === 'bar');
       });
 
+      it('should set suffix _date to property key and convert date if trait is a date', function() {
+        analytics.identify({
+          email: 'shawn@shawnmorgan.com',
+          createdAt: '01/01/2015',
+          property1: 'foo',
+          property2: '2015-01-01'
+        });
+        analytics.assert(window.wootricSettings.properties.property1 === 'foo');
+        analytics.assert(window.wootricSettings.properties.hasOwnProperty('property2_date'));
+        analytics.assert(!window.wootricSettings.properties.hasOwnProperty('property2'));
+        analytics.equal(window.wootricSettings.properties.property2_date, 1420070400);
+      });
+
+      it('should not convert to date if property key has suffix _date', function() {
+        analytics.identify({
+          email: 'shawn@shawnmorgan.com',
+          createdAt: '01/01/2015',
+          property1: 'foo',
+          property2_date: 1420070400
+        });
+        analytics.assert(window.wootricSettings.properties.property1 === 'foo');
+        analytics.equal(window.wootricSettings.properties.property2_date, 1420070400);
+        analytics.assert(!window.wootricSettings.properties.hasOwnProperty('property2_date_date'));
+      });
+
       it('should omit email and createdAt when setting window.wootricSettings.properties', function() {
         analytics.identify({
           email: 'shawn@shawnmorgan.com',
