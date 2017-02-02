@@ -1,4 +1,9 @@
 
+2.0.2 / 2017-02-02
+==================
+
+  * Update date properties to be in Unix timestamp format and suffixed with '_date'
+
 2.0.1 / 2016-10-06
 ==================
 
