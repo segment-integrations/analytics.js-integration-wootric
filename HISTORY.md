@@ -1,3 +1,7 @@
+2.0.2 / 2017-02-02
+==================
+
+  * Update Wootric js sdk source to support their new version.
 
 2.0.2 / 2017-02-02
 ==================
