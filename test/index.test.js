@@ -35,7 +35,6 @@ describe('Wootric', function() {
     analytics.compare(Wootric, integration('Wootric')
       .assumesPageview()
       .option('accountToken', '')
-      .global('event_name')
       .global('wootricSettings')
       .global('wootric_survey_immediately')
       .global('wootric'));
@@ -104,34 +103,6 @@ describe('Wootric', function() {
           email: 'shawn@shawnmorgan.com'
         });
         analytics.equal(window.wootricSettings.event_name, 'track_event');
-      });
-
-      it('should set created_at on track using ISO YYYY-MM-DD format', function() {
-        analytics.track('track_event', {
-          createdAt: '2015-01-01'
-        });
-        analytics.equal(window.wootricSettings.created_at, 1420070400);
-      });
-
-      it('should set created_at on track using ISO YYYYMMDD format', function() {
-        analytics.track('track_event', {
-          createdAt: '20150101'
-        });
-        analytics.equal(window.wootricSettings.created_at, 1420070400);
-      });
-
-      it('should set created_at on properties using Unix Timestamp format', function() {
-        analytics.track('track_event', {
-          createdAt: '1420099200000'
-        });
-        analytics.equal(window.wootricSettings.created_at, 1420099200);
-      });
-
-      it('should round Unix Timstamps with a decimal to the nearest whole digit', function() {
-        analytics.track('track_event', {
-          createdAt: '1420099200.435'
-        });
-        analytics.equal(window.wootricSettings.created_at, 1420099200);
       });
 
       it('should set properties based on other traits', function() {
