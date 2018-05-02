@@ -90,12 +90,57 @@ describe('Wootric', function() {
       analytics.assert(typeof window.wootric === 'function');
     });
 
+    describe('#track', function() {
+      it('should set email on track', function() {
+        analytics.track('track_event', {
+          email: 'shawn@shawnmorgan.com'
+        });
+        analytics.equal(window.wootricSettings.email, 'shawn@shawnmorgan.com');
+      });
+
+      it('should set event_name on track', function() {
+        analytics.track('track_event', {
+          email: 'shawn@shawnmorgan.com'
+        });
+        analytics.equal(window.wootricSettings.event_name, 'track_event');
+      });
+
+      it('should set properties based on other traits', function() {
+        analytics.track('track_event', {
+          email: 'shawn@shawnmorgan.com',
+          createdAt: '01/01/2015',
+          property1: 'foo',
+          property2: 'bar'
+        });
+        analytics.assert(window.wootricSettings.properties.property1 === 'foo');
+        analytics.assert(window.wootricSettings.properties.property2 === 'bar');
+      });
+
+      it('should omit email and createdAt when setting window.wootricSettings.properties', function() {
+        analytics.track('track_event', {
+          email: 'shawn@shawnmorgan.com',
+          createdAt: '01/01/2015',
+          property1: 'foo',
+          property2: 'bar'
+        });
+        analytics.assert(!window.wootricSettings.properties.email);
+        analytics.assert(!window.wootricSettings.properties.createdAt);
+      });
+    });
+
     describe('#identify', function() {
       it('should set email on identify', function() {
         analytics.identify({
           email: 'shawn@shawnmorgan.com'
         });
         analytics.equal(window.wootricSettings.email, 'shawn@shawnmorgan.com');
+      });
+
+      it('should set event_name to null on identify', function() {
+        analytics.identify({
+          email: 'shawn@shawnmorgan.com'
+        });
+        analytics.equal(window.wootricSettings.event_name, null);
       });
 
       it('should set created_at on identify using ISO YYYY-MM-DD format', function() {
@@ -193,6 +238,72 @@ describe('Wootric', function() {
 
       it('should set lastPageTracked to window location', function() {
         analytics.assert(wootric.lastPageTracked === window.location);
+      });
+    });
+
+    describe('survey', function() {
+      it('should set email on identify', function() {
+        analytics.identify({
+          email: 'shawn@shawnmorgan.com'
+        });
+        analytics.equal(window.wootricSettings.email, 'shawn@shawnmorgan.com');
+      });
+
+      it('should set created_at on identify using ISO YYYY-MM-DD format', function() {
+        analytics.identify({
+          createdAt: '2015-01-01'
+        });
+        analytics.equal(window.wootricSettings.created_at, 1420070400);
+      });
+
+      it('should set created_at on identify using ISO YYYYMMDD format', function() {
+        analytics.identify({
+          createdAt: '20150101'
+        });
+        analytics.equal(window.wootricSettings.created_at, 1420070400);
+      });
+
+      it('should set created_at on traits using Unix Timestamp format', function() {
+        analytics.identify({
+          createdAt: '1420099200000'
+        });
+        analytics.equal(window.wootricSettings.created_at, 1420099200);
+      });
+
+      it('should round Unix Timstamps with a decimal to the nearest whole digit', function() {
+        analytics.identify({
+          createdAt: '1420099200.435'
+        });
+        analytics.equal(window.wootricSettings.created_at, 1420099200);
+      });
+
+      it('should set language', function() {
+        analytics.identify({
+          language: 'es'
+        });
+        analytics.equal(window.wootricSettings.language, 'es');
+      });
+
+      it('should set properties based on other traits', function() {
+        analytics.identify({
+          email: 'shawn@shawnmorgan.com',
+          createdAt: '01/01/2015',
+          property1: 'foo',
+          property2: 'bar'
+        });
+        analytics.assert(window.wootricSettings.properties.property1 === 'foo');
+        analytics.assert(window.wootricSettings.properties.property2 === 'bar');
+      });
+
+      it('should omit email and createdAt when setting window.wootricSettings.properties', function() {
+        analytics.identify({
+          email: 'shawn@shawnmorgan.com',
+          createdAt: '01/01/2015',
+          property1: 'foo',
+          property2: 'bar'
+        });
+        analytics.assert(!window.wootricSettings.properties.email);
+        analytics.assert(!window.wootricSettings.properties.createdAt);
       });
     });
   });
