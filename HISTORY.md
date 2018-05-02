@@ -1,3 +1,8 @@
+2.1.0 / 2018-05-02
+==================
+
+  * Add support for Track events
+  * Refactor Identify
 
 2.0.3 / 2017-11-02
 ==================
