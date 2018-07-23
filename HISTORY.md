@@ -1,3 +1,9 @@
+
+2.1.1 / 2018-07-23
+==================
+
+  * Using the latest Wootric CDN URL instead of CloudFront domain (#15)
+
 2.1.0 / 2018-05-02
 ==================
 
