@@ -105,6 +105,14 @@ describe('Wootric', function() {
         analytics.equal(window.wootricSettings.event_name, 'track_event');
       });
 
+      it('should set created_at to null on track', function() {
+        analytics.track('track_event', {
+          email: 'shawn@shawnmorgan.com',
+          createdAt: '01/01/2015'
+        });
+        analytics.equal(window.wootricSettings.created_at, null);
+      });
+
       it('should set properties based on other traits', function() {
         analytics.track('track_event', {
           email: 'shawn@shawnmorgan.com',
@@ -129,6 +137,20 @@ describe('Wootric', function() {
     });
 
     describe('#identify', function() {
+      it('should set segment_user_id on identify when userId defined', function() {
+        analytics.identify('abcd1234', {
+          email: 'shawn@shawnmorgan.com'
+        });
+        analytics.equal(window.wootricSettings.segment_user_id, 'abcd1234');
+      });
+
+      it('should set segment_user_id to wite the anonymousId on identify when userId not defined', function() {
+        analytics.identify({
+          email: 'shawn@shawnmorgan.com'
+        });
+        analytics.equal(window.wootricSettings.segment_user_id, analytics.user().anonymousId());
+      });
+
       it('should set email on identify', function() {
         analytics.identify({
           email: 'shawn@shawnmorgan.com'
